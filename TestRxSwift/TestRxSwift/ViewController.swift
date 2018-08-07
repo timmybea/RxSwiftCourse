@@ -24,6 +24,7 @@ class ViewController: UIViewController {
             //Now you can subscribe to events being emitted by the observable sequence and print the results
             //Event is an enum representation of a sequence event (next, error, completed)
             //Note that Event and observable types are the same. Observable<String> emits Event<String>
+            
             let disposable = observable.subscribe({ (event: Event<String>) in
                 print(event)
             })
@@ -58,7 +59,7 @@ class ViewController: UIViewController {
                 print($0)
             })
             
-            subscription.disposed(by: disposeBag) //adds the sub to the dispose bag
+              //adds the sub to the dispose bag
         } // deinits the dispose bag as the scope ends
         
         
@@ -89,8 +90,6 @@ class ViewController: UIViewController {
                 .subscribe(onError: { print("Error: \($0)") })
                 .disposed(by: db)
         }
-        
-        
     }
 
     override func didReceiveMemoryWarning() {
