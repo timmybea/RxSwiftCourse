@@ -83,6 +83,72 @@ class ViewController: UIViewController {
                     print("error: \(error)")
                 }
             })
+            .disposed(by: disposeBag)
+        }
+        
+        
+        example(of: "Completable") {
+
+            let disposeBag = DisposeBag()
+
+
+            enum FileWriteError: Error {
+                case docDirNotFound, writeError
+            }
+
+            func write(_ text: String, tofileName name: String) -> Completable {
+
+                return Completable.create { (completable) -> Disposable in
+
+                    let disposable = Disposables.create {}
+
+                    guard var filePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else {
+                        completable(.error(FileWriteError.docDirNotFound))
+                        return disposable
+                    }
+
+                    filePath.appendPathComponent("\(name).txt")
+                    
+                    //see if there is already contents in the file
+                    var contents = (try? String(contentsOf: filePath, encoding: .utf8)) ?? ""
+                    contents += "\n\(text)"
+
+                    do {
+                        try contents.write(to: filePath, atomically: false, encoding: .utf8)
+                        completable(.completed)
+                        return disposable
+                    } catch {
+                        completable(.error(FileWriteError.writeError))
+                        return disposable
+                    }
+                }
+            }
+
+            write("Shanana", tofileName: "Hello_World")
+                .subscribe {
+                    switch $0 {
+                    case .completed: print("write completed")
+                    case .error(let error): print("write error: \(error)")
+                    }
+                }
+                .disposed(by: disposeBag)
+        }
+        
+        if let docDir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
+            let files = try? FileManager.default.contentsOfDirectory(at: docDir, includingPropertiesForKeys: nil)
+
+            if let files = files {
+                print("files in docs dir")
+                for file in files {
+                    print(file.lastPathComponent)
+                    
+                    if file.pathExtension == "txt" {
+                        if let contents = try? String(contentsOf: file, encoding: .utf8) {
+                            print("contents: \(contents)")
+                        }
+                    }
+                }
+            }
         }
     }
 
