@@ -15,6 +15,8 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        
+        //emits a value or error
         example(of: "Single") {
             let disposeBag = DisposeBag()
             
@@ -72,7 +74,7 @@ class ViewController: UIViewController {
                 }
 
             }
-            
+    
             contentsOfTextFile(named: "FreshPrince") // returns PrimitiveSequence<SingleTrait, String>
           
             .subscribe({
@@ -86,7 +88,7 @@ class ViewController: UIViewController {
             .disposed(by: disposeBag)
         }
         
-        
+        //emits completed or error
         example(of: "Completable") {
 
             let disposeBag = DisposeBag()
@@ -124,32 +126,134 @@ class ViewController: UIViewController {
                 }
             }
 
-            write("Shanana", tofileName: "Hello_World")
-                .subscribe {
-                    switch $0 {
-                    case .completed: print("write completed")
-                    case .error(let error): print("write error: \(error)")
-                    }
-                }
-                .disposed(by: disposeBag)
+//            write("Shanana", tofileName: "Hello_World")
+//                .subscribe {
+//                    switch $0 {
+//                    case .completed: print("write completed")
+//                    case .error(let error): print("write error: \(error)")
+//                    }
+//                }
+//                .disposed(by: disposeBag)
+//
+//            //Check that the write was successful
+//            if let docDir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
+//                let files = try? FileManager.default.contentsOfDirectory(at: docDir, includingPropertiesForKeys: nil)
+//
+//                if let files = files {
+//                    print("files in docs dir")
+//                    for file in files {
+//                        print(file.lastPathComponent)
+//
+//                        if file.pathExtension == "txt" {
+//                            if let contents = try? String(contentsOf: file, encoding: .utf8) {
+//                                print("contents: \(contents)")
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+            
         }
         
-        if let docDir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
-            let files = try? FileManager.default.contentsOfDirectory(at: docDir, includingPropertiesForKeys: nil)
-
-            if let files = files {
-                print("files in docs dir")
-                for file in files {
-                    print(file.lastPathComponent)
+        //emits a value, completed, or error
+        example(of: "Maybe") {
+            
+            let disposeBag = DisposeBag()
+            
+            enum FileWriteError: Error {
+                case urlFail, unreadable, encodingFailed, writeFailed
+            }
+            
+            func write(_ text: String, toFile fileName: String) -> Maybe<String> {
+                
+                return Maybe.create(subscribe: { (maybe) -> Disposable in
                     
-                    if file.pathExtension == "txt" {
-                        if let contents = try? String(contentsOf: file, encoding: .utf8) {
-                            print("contents: \(contents)")
+                    let disposable = Disposables.create { }
+                    
+                    //create url
+                    guard let docDir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else { maybe(.error(FileWriteError.urlFail)); return disposable }
+                    let myURL = docDir.appendingPathComponent("\(fileName).txt")
+                    
+                    
+//                    //APPROACH 1: Get the data from the disk and turn it into a string. Append the new text to the end of the string and write the string.
+//
+//                    //check if file exists
+//                    var isDir: ObjCBool = false
+//                    var exists = FileManager.default.fileExists(atPath: myURL.path, isDirectory: &isDir)
+//
+//                    var contents = ""
+//                    if exists && !isDir.boolValue {
+//                        //if file exists, pull data and append text to the end
+//                        guard let readData = FileManager.default.contents(atPath: myURL.path)                            else {
+//                            maybe(.error(FileWriteError.unreadable))
+//                            return disposable
+//                        }
+//
+//                        if let existing = String(data: readData, encoding: .utf8) {
+//                            contents = existing + "\n"
+//                        }
+//                    }
+//
+//
+//                    contents.append(text)
+//
+//                    do {
+//                        try contents.write(to: myURL, atomically: false, encoding: .utf8)
+//                        maybe(.success(text))
+//                        return disposable
+//                    } catch {
+//                        maybe(.error(FileWriteError.writeFailed))
+//                        return disposable
+//                    }
+//
+                    //APPROACH 2: Get the data from the disk, use a handle to scan to the end of the data, convert the new text to data and append it to the end. Write the data.
+                    
+                    //handle can only be created if there is a file at the path
+                    if let handle = FileHandle(forWritingAtPath: myURL.path) {
+                        
+                        handle.seekToEndOfFile()
+                        
+                        guard let newTextData = text.data(using: .utf8) else {
+                            maybe(.error(FileWriteError.encodingFailed))
+                            return disposable
+                        }
+                        
+                        handle.write(newTextData)
+                        
+                        maybe(.success(text))
+                        return disposable
+                    } else {
+                        
+                        do {
+                            try text.write(to: myURL, atomically: false, encoding: .utf8)
+                            maybe(.success(text))
+                            return disposable
+                        } catch {
+                            maybe(.error(FileWriteError.writeFailed))
+                            return disposable
                         }
                     }
-                }
+                })
+                
+                
+                
             }
+            
+            write("Wotcha Want?!", toFile: "My File")
+                .subscribe {
+                    switch $0 {
+                    case .completed:
+                        print("maybe: completed")
+                    case .error(let error):
+                        print("maybe: error \(error.localizedDescription)")
+                    case .success(let element):
+                        print("maybe: success \(element)")
+                    }
+            }
+            .disposed(by: disposeBag)
+            
         }
+
     }
 
     override func didReceiveMemoryWarning() {
