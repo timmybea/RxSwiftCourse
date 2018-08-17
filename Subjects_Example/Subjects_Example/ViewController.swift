@@ -60,6 +60,7 @@ class ViewController: UIViewController {
             
             behavSub.onCompleted() //emits completed event and terminates sequence
             
+           
             
 //
 //            let dispose = DisposeBag()

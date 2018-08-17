@@ -69,13 +69,15 @@ class ViewController: UIViewController {
             
             let disposeBag = DisposeBag()
             
-            Observable.from([6, 7, 8, 9, 10]) // returns observable
-                .subscribe(onNext: { print($0) },
+            let numbers = Observable.from([6, 7, 8, 9, 10]) // returns observable
+                numbers.subscribe(onNext: { print($0) },
                            onError: { print($0.localizedDescription)},
                            onCompleted: { print("sequence has completed") },
                            onDisposed: { print("subscription disposed") }) //returns disposable
                 
                 .disposed(by: disposeBag)
+            
+            
         }
         
         example(of: "error") {
