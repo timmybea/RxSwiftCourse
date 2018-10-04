@@ -18,22 +18,156 @@ class ViewController: UIViewController {
 
         //map transforms the elements and puts them into a new sequence
         
+//        let db = DisposeBag()
+//        Observable.of(1, 2, 3, 4)
+//            .map() { $0 * $0 }
+//            .subscribe(onNext: {
+//                print("sub 1: \($0)")
+//            })
+//            .disposed(by: db)
+        
+//        IN FULL:
+//        let db = DisposeBag()
+//
+//        let seqOrig = Observable.of(1, 2, 3, 4)
+//
+//        let seqMapped = seqOrig.map() { $0 * $0 }
+//
+//        seqOrig.subscribe(onNext: {
+//            print("Original Sequence: \($0)")
+//        })
+//        .disposed(by: db)
+//
+//        seqMapped.subscribe(onNext: {
+//            print("Mapped Sequence: \($0)")
+//        })
+//        .disposed(by: db)
+        
+        
         let db = DisposeBag()
-        Observable.of(1, 2, 3, 4)
-            .map() { $0 * $0 }
-            .subscribe(onNext: {
-                print("sub 1: \($0)")
-            })
+        
+        let seqOrig = Variable<Int>(1)
+        
+        let seqMapped = seqOrig.asObservable().map() { $0 * $0 }
+        
+        seqOrig.asObservable().subscribe(onNext: {
+            print("Original Sequence: \($0)")
+        })
             .disposed(by: db)
         
-        //IN FULL:
-//        let db = DisposeBag()
-//        let seq = Observable.of(1, 2, 3, 4)
-//        let copySeq = seq.map() { $0 * $0 }
-//        copySeq.subscribe(onNext: {
-//            print("sub 1: \($0)")
-//        })
+        seqMapped.subscribe(onNext: {
+            print("Mapped Sequence: \($0)")
+        })
+            .disposed(by: db)
+        
+        seqOrig.value = 2
+        seqOrig.value = 3
+        seqOrig.value = 4
+        
+        
+        
+//        example(of: "FlatMap") {
+//
+//            struct Person {
+//                var name: String
+//
+//                var thingsEaten = PublishSubject<String>()
+//
+//                init(name: String) {
+//                    self.name = name
+//                }
+//
+//                func eat(item: String) {
+//                    thingsEaten.onNext("\(self.name) ate one \(item)")
+//                }
+//            }
+//
+//            let matt = Person(name: "Matt")
+//            let shawna = Person(name: "Shawna")
+////
+//            let db = DisposeBag()
+//            let observedPeople = Variable<Person>(matt)
+//
+//            let flatMappedPeople = observedPeople.asObservable().flatMap {
+//                $0.thingsEaten
+//            }
+//
+//            flatMappedPeople.subscribe(onNext: {
+//                print($0)
+//            })
 //            .disposed(by: db)
+//
+//            observedPeople.asObservable().subscribe(onNext: {
+//                print("observing: \($0.name)")
+//            })
+//            .disposed(by: db)
+//
+//            matt.eat(item: "donut")
+//
+//            shawna.eat(item: "apple")
+//
+//            observedPeople.value = shawna
+//
+//            shawna.eat(item: "piece of cheese")
+//
+//            matt.eat(item: "piece of chocolate")
+            
+            
+            
+            //flatMap
+            
+            
+            example(of: "flatMapLatest") {
+                
+                struct Person {
+                    var name: String
+                    
+                    var thingsEaten = PublishSubject<String>()
+                    
+                    init(name: String) {
+                        self.name = name
+                    }
+                    
+                    func eat(item: String) {
+                        thingsEaten.onNext("\(self.name) ate one \(item)")
+                    }
+                }
+                
+                let matt = Person(name: "Matt")
+                let shawna = Person(name: "Shawna")
+                
+                let db = DisposeBag()
+                let observedPeople = Variable<Person>(matt)
+                
+                let flatMappedPeople = observedPeople.asObservable().flatMapLatest {
+                    $0.thingsEaten
+                }
+                
+                flatMappedPeople.subscribe(onNext: {
+                    print($0)
+                })
+                    .disposed(by: db)
+                
+                observedPeople.asObservable().subscribe(onNext: {
+                    print("observing: \($0.name)")
+                })
+                    .disposed(by: db)
+                
+                matt.eat(item: "donut")
+                
+                shawna.eat(item: "apple")
+                
+                observedPeople.value = shawna
+                
+                shawna.eat(item: "piece of cheese")
+                
+                matt.eat(item: "piece of chocolate")
+                
+                shawna.eat(item: "piece of pizza")
+            
+            
+        }
+        
         
         
         example(of: "flatMap and flatMapLatest") {
@@ -52,14 +186,14 @@ class ViewController: UIViewController {
 
             //we want to subscribe to current player's score. That is the score observable inside the player observable. Remember that Variable is a wrapper, and you can access the observable through .asObservable()
             
-            currentPlayer.asObservable() //observable<Player>
-                .flatMapLatest { $0.score.asObservable() }
+            let observable = currentPlayer.asObservable() //BehaviorSubject<Player>
+                let a = observable.flatMapLatest { $0.score.asObservable() }
                 //.flatMap { $0.score.asObservable() }
                 //observable<Int>. Notice that flatMap pulls the value out of the observable subject.
-                .subscribe(onNext: {
+                a.subscribe(onNext: {
                     print("sub 1: score is \($0)") //replays 80
                 })
-            .disposed(by: disposeBag)
+//            .disposed(by: disposeBag)
 
             //Now you can change the value inside the current player...
             currentPlayer.value.score.value = 90

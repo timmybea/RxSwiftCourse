@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		98774C5DF537D2C693650CAF /* Pods_CombiningObservables.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B8F30B9BA066E2F627141036 /* Pods_CombiningObservables.framework */; };
+		B0D5A7C72127915B00F74BE1 /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0D5A7C62127915B00F74BE1 /* Helpers.swift */; };
 		B0E26A262127901A003152ED /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0E26A252127901A003152ED /* AppDelegate.swift */; };
 		B0E26A282127901A003152ED /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0E26A272127901A003152ED /* ViewController.swift */; };
 		B0E26A2B2127901A003152ED /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B0E26A292127901A003152ED /* Main.storyboard */; };
@@ -15,6 +17,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		9F81A192DC43E7FC6CB93CE7 /* Pods-CombiningObservables.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CombiningObservables.debug.xcconfig"; path = "Target Support Files/Pods-CombiningObservables/Pods-CombiningObservables.debug.xcconfig"; sourceTree = "<group>"; };
+		B0D5A7C62127915B00F74BE1 /* Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
 		B0E26A222127901A003152ED /* CombiningObservables.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CombiningObservables.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B0E26A252127901A003152ED /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B0E26A272127901A003152ED /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -22,6 +26,8 @@
 		B0E26A2C2127901B003152ED /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B0E26A2F2127901B003152ED /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B0E26A312127901B003152ED /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B8F30B9BA066E2F627141036 /* Pods_CombiningObservables.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CombiningObservables.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		DE3161EB74A7E82722DF6F58 /* Pods-CombiningObservables.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CombiningObservables.release.xcconfig"; path = "Target Support Files/Pods-CombiningObservables/Pods-CombiningObservables.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -29,17 +35,28 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				98774C5DF537D2C693650CAF /* Pods_CombiningObservables.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		8874CE46C030F401591CF234 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				B8F30B9BA066E2F627141036 /* Pods_CombiningObservables.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		B0E26A192127901A003152ED = {
 			isa = PBXGroup;
 			children = (
 				B0E26A242127901A003152ED /* CombiningObservables */,
 				B0E26A232127901A003152ED /* Products */,
+				EBA56E3B481FF7CF5DAC27B1 /* Pods */,
+				8874CE46C030F401591CF234 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -56,12 +73,22 @@
 			children = (
 				B0E26A252127901A003152ED /* AppDelegate.swift */,
 				B0E26A272127901A003152ED /* ViewController.swift */,
+				B0D5A7C62127915B00F74BE1 /* Helpers.swift */,
 				B0E26A292127901A003152ED /* Main.storyboard */,
 				B0E26A2C2127901B003152ED /* Assets.xcassets */,
 				B0E26A2E2127901B003152ED /* LaunchScreen.storyboard */,
 				B0E26A312127901B003152ED /* Info.plist */,
 			);
 			path = CombiningObservables;
+			sourceTree = "<group>";
+		};
+		EBA56E3B481FF7CF5DAC27B1 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				9F81A192DC43E7FC6CB93CE7 /* Pods-CombiningObservables.debug.xcconfig */,
+				DE3161EB74A7E82722DF6F58 /* Pods-CombiningObservables.release.xcconfig */,
+			);
+			path = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -71,9 +98,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = B0E26A342127901B003152ED /* Build configuration list for PBXNativeTarget "CombiningObservables" */;
 			buildPhases = (
+				C637948D584B92B427454ADB /* [CP] Check Pods Manifest.lock */,
 				B0E26A1E2127901A003152ED /* Sources */,
 				B0E26A1F2127901A003152ED /* Frameworks */,
 				B0E26A202127901A003152ED /* Resources */,
+				9CE0F4DD04D3CDED2FABC0AA /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -130,12 +159,52 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		9CE0F4DD04D3CDED2FABC0AA /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-CombiningObservables/Pods-CombiningObservables-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/RxSwift/RxSwift.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxSwift.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-CombiningObservables/Pods-CombiningObservables-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		C637948D584B92B427454ADB /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-CombiningObservables-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		B0E26A1E2127901A003152ED /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				B0E26A282127901A003152ED /* ViewController.swift in Sources */,
+				B0D5A7C72127915B00F74BE1 /* Helpers.swift in Sources */,
 				B0E26A262127901A003152ED /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -278,6 +347,7 @@
 		};
 		B0E26A352127901B003152ED /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9F81A192DC43E7FC6CB93CE7 /* Pods-CombiningObservables.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -296,6 +366,7 @@
 		};
 		B0E26A362127901B003152ED /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DE3161EB74A7E82722DF6F58 /* Pods-CombiningObservables.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
