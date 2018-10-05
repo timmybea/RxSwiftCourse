@@ -92,6 +92,32 @@ class ViewController: UIViewController {
                 .subscribe(onError: { print("Error: \($0)") })
                 .disposed(by: db)
         }
+        
+        //Performing side-effects: You can listen to but not effect the values in the events
+        
+        var squaredVals = [Int]()
+        
+        let db = DisposeBag()
+        
+        let fahrenheitTemps = PublishSubject<Int>()
+        fahrenheitTemps
+            .do(onNext: { print("do1 next: ", squaredVals.append($0 * $0)) }) //Notice that do is escaping!
+            .do(onNext: { print("do2 next: ", "\($0)℉") })
+            .map { Double($0 - 32) * 5/9.0 }
+            .do(onError: { print("do3: Error \($0)")},
+                onCompleted: { print("do3 Completed") },
+                onSubscribe: { print("do3: Subscribed")},
+                onDispose: { print("do3: Disposed")})
+            
+            .subscribe(onNext: { print("Subscription: ", String(format: "%.1f℃", $0))})
+            .disposed(by: db)
+        
+        fahrenheitTemps.onNext(70)
+        
+        print("SquaredVals: ", squaredVals)
+        
+        fahrenheitTemps.onCompleted() //This will dispose of the Observable
+        
     }
 
     override func didReceiveMemoryWarning() {

@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:RxCocoaTraits.xcodeproj">
+      location = "self:Bind UI Elements.xcodeproj">
    </FileRef>
 </Workspace>
