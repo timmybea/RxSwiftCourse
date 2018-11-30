@@ -59,6 +59,7 @@ class ViewController: UIViewController {
         
         //CONTROL EVENT: Detect tap in our view controller to end editing in the text field
         //unonwned: it is impossible for vc to be released before the method is called, so instead of using weak we use unowned.
+        //THINK OF THIS AS A SELECTOR METHOD: self = target and _ = sender
         tapGestureRecognizer.rx.event
             .bind(onNext: { [unowned self] _ in
                 self.view.endEditing(true)

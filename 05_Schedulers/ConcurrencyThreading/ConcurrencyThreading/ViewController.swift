@@ -47,7 +47,7 @@ class ViewController: UIViewController {
         imageData
             .observeOn(operationQueueScheduler)
 //        .observeOn(globalSerialScheduler)
-            //        .observeOn(globalConcurrentScheduler) //receive events on background thread
+//        .observeOn(globalConcurrentScheduler) //receive events on background thread
         .map({ UIImage(data: $0)} ) //use map to transform the data type into UIImage type
         .observeOn(MainScheduler.instance) //now receive the images on the main thread
             .subscribe(onNext: { self.imageView.image = $0 })
